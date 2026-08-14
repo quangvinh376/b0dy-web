@@ -1,12 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-  B0DY — Favicon / PWA Icon
-  Uses the isolated "0 with dot" symbol as the brand mark icon.
-  ViewBox: 64×64 with safe area padding.
--->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill-rule="evenodd">
-  <rect width="64" height="64" rx="12" fill="#0A0A0A"/>
-  <g transform="translate(15, 15) scale(0.14)" fill="#FAFAFA">
-    <path d="M 32 120 A 88 115 0 0 1 120 5 A 88 115 0 0 1 208 120 A 88 115 0 0 1 120 235 A 88 115 0 0 1 32 120 Z M 80 120 A 40 67 0 0 1 120 53 A 40 67 0 0 1 160 120 A 40 67 0 0 1 120 187 A 40 67 0 0 1 80 120 Z M 100 120 A 20 20 0 0 1 140 120 A 20 20 0 0 1 100 120 Z"/>
-  </g>
+<rect width="64" height="64" fill="#D4FF00"/>
+<g transform="translate(11.84,25.95) scale(0.05040)"><path d="M 41 40 L 41 200 L 131 200 C 169 200 193 178 193 150 C 193 130 179 112 159 106 C 175 100 185 84 185 68 C 185 44 163 40 133 40 L 41 40 Z M 81 70 L 125 70 C 139 70 147 76 147 88 C 147 100 139 106 125 106 L 81 106 L 81 70 Z M 81 136 L 131 136 C 147 136 155 144 155 158 C 155 172 147 170 129 170 L 81 170 L 81 136 Z" fill="#0A0A0A"/>
+<path d="M 218 120 A 88 115 0 0 1 306 5 A 88 115 0 0 1 394 120 A 88 115 0 0 1 306 235 A 88 115 0 0 1 218 120 Z M 266 120 A 40 67 0 0 1 306 53 A 40 67 0 0 1 346 120 A 40 67 0 0 1 306 187 A 40 67 0 0 1 266 120 Z M 286 120 A 20 20 0 0 1 326 120 A 20 20 0 0 1 286 120 Z" fill="#0A0A0A"/>
+<path d="M 419 40 L 419 200 L 499 200 C 559 200 599 168 599 120 C 599 72 559 40 499 40 L 419 40 Z M 459 76 L 497 76 C 533 76 559 96 559 120 C 559 144 533 164 497 164 L 459 164 L 459 76 Z" fill="#0A0A0A"/>
+<path d="M 599 40 L 643 40 L 679 110 L 715 40 L 759 40 L 699 150 L 699 200 L 659 200 L 659 150 L 599 40 Z" fill="#0A0A0A"/></g>
 </svg>
