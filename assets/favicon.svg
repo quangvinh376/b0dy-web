@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  B0DY — Favicon / PWA Icon
+  Uses the isolated "0 with dot" symbol as the brand mark icon.
+  ViewBox: 64×64 with safe area padding.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill-rule="evenodd">
+  <rect width="64" height="64" rx="12" fill="#0A0A0A"/>
+  <g transform="translate(15, 15) scale(0.14)" fill="#FAFAFA">
+    <path d="M 32 120 A 88 115 0 0 1 120 5 A 88 115 0 0 1 208 120 A 88 115 0 0 1 120 235 A 88 115 0 0 1 32 120 Z M 80 120 A 40 67 0 0 1 120 53 A 40 67 0 0 1 160 120 A 40 67 0 0 1 120 187 A 40 67 0 0 1 80 120 Z M 100 120 A 20 20 0 0 1 140 120 A 20 20 0 0 1 100 120 Z"/>
+  </g>
+</svg>
