@@ -7,7 +7,18 @@
 <meta name="color-scheme" content="dark">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="description" content="B0DY — private fitness studio tại Hà Nội. Đặt lịch tập thử.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://b0dy.studio/">
+<meta property="og:title" content="B0DY — Private Fitness Studio">
+<meta property="og:description" content="Private fitness studio tại Hà Nội. Đặt lịch tập thử.">
+<meta property="og:image" content="https://b0dy.studio/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="1200">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://b0dy.studio/assets/og-image.png">
 <link rel="icon" href="assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://script.google.com" crossorigin>
 <link rel="preload" href="assets/fonts/SVN-Switzer-Medium.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/jetbrains-mono-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -45,7 +56,8 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{background:#0A0A0A;color:var(--w92);color-scheme:dark}
 body{font-family:'SVN-Switzer','B0DY Sans',system-ui,sans-serif;font-weight:500;
-     font-synthesis:none;overflow:hidden}
+     font-synthesis:none}
+body.bk{overflow:hidden}
 body::after{content:'';position:fixed;left:0;right:0;top:-140px;bottom:-240px;background:#0A0A0A;z-index:-1}
 
 /* JetBrains Mono LUÔN VIẾT HOA — luật brand digital (chốt 14/08) */
@@ -69,6 +81,7 @@ button,input{font:inherit;color:inherit;background:none;border:0;outline:0}
       padding:26px 24px calc(22px + env(safe-area-inset-bottom));
       transition:opacity .35s var(--ease),transform .45s var(--ease)}
 body.bk .wrap{opacity:.22;transform:scale(.985)}
+body.bk .manif,body.bk .foot{opacity:.22;transition:opacity .35s var(--ease)}
 @media(min-width:900px){.wrap{padding:40px 64px 34px}}
 
 /* header — wordmark giữa, đổi ngôn ngữ bên phải */
@@ -95,22 +108,54 @@ h1{font-size:clamp(30px,6.4vw,88px);line-height:1.08;letter-spacing:-.04em;color
 @media(hover:hover){.cta:hover svg{transform:translateX(4px)}}
 @media(min-width:900px){.cta{height:60px;padding:0 30px;font-size:16px}}
 
-/* footer — trái: 2 dòng · phải: social */
-.foot{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+/* gợi ý cuộn — một vạch mảnh, không chữ */
+.cue{align-self:center;width:1px;height:26px;background:var(--w30);transform-origin:top;
+     animation:cue 2.2s var(--ease) infinite}
+@keyframes cue{0%{transform:scaleY(0)}45%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+@media(prefers-reduced-motion:reduce){.cue{animation:none}}
+
+/* ───────── triết lý số 0 — màn thứ hai ───────── */
+.manif{display:grid;grid-template-columns:1fr;gap:44px;align-items:center;justify-items:start;
+       max-width:1120px;margin:0 auto;padding:96px 24px 104px}
+@media(min-width:900px){.manif{grid-template-columns:auto 1fr;gap:104px;padding:170px 64px 180px}}
+.zero{width:124px;height:162px;color:var(--w30)}
+@media(min-width:900px){.zero{width:176px;height:230px}}
+.zero .ring{stroke-dasharray:100;stroke-dashoffset:100;transition:stroke-dashoffset 1.4s var(--ease) .15s}
+.manif.seen .zero .ring{stroke-dashoffset:0}
+.zero .dot{opacity:0;transition:opacity .5s var(--ease) 1.3s}
+.manif.seen .zero .dot{opacity:1}
+@media(prefers-reduced-motion:reduce){.zero .ring{stroke-dashoffset:0;transition:none}.zero .dot{opacity:1;transition:none}}
+.mtxt{display:flex;flex-direction:column;align-items:flex-start;gap:22px;max-width:560px}
+.mk{font-size:11px;letter-spacing:.08em;color:var(--w30)}
+.mh{font-size:clamp(27px,4.6vw,52px);line-height:1.12;letter-spacing:-.025em;color:var(--paper)}
+.mp{font-size:15px;line-height:1.65;letter-spacing:-.005em;color:var(--w50)}
+@media(min-width:900px){.mp{font-size:17px}}
+.mclose{color:var(--w92)}
+.mtxt .cta{margin-top:12px}
+
+/* footer cuối trang — trái: credit · phải: social */
+.foot{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+      border-top:1px solid var(--hair);
+      padding:24px 24px calc(24px + env(safe-area-inset-bottom))}
+@media(min-width:900px){.foot{padding:28px 64px calc(28px + env(safe-area-inset-bottom))}}
 .fl{font-size:11px;line-height:19px;letter-spacing:.07em;color:var(--w30)}
-@media(max-width:640px){.fl{font-size:9px;line-height:16px;letter-spacing:.05em;flex:1;min-width:0}}
+.mob{display:none}
+@media(max-width:640px){.fl{font-size:9px;line-height:16px;letter-spacing:.05em;flex:1;min-width:0}
+                        .mob{display:inline}.dsk{display:none}}
 .soc{display:flex;gap:4px}
 .soc a{display:flex;align-items:center;justify-content:center;width:40px;height:40px;
        color:var(--w30);transition:color .2s var(--ease),transform .2s var(--ease)}
 .soc a:hover{color:var(--paper);transform:translateY(-1px)}
 .soc svg{width:20px;height:20px}
+@media(max-width:640px){.soc{gap:0}.soc a{width:34px;height:34px}.soc svg{width:18px;height:18px}}
 
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.top,.mid>*,.foot{animation:rise .6s var(--ease) both}
+.top,.mid>*,.cue{animation-name:rise;animation-duration:.6s;animation-timing-function:var(--ease);animation-fill-mode:both}
 .top{animation-delay:.05s}
 .mid>*:nth-child(1){animation-delay:.20s}
 .mid>*:nth-child(2){animation-delay:.34s}
-.foot{animation-delay:.48s}
+.cue{animation:rise .6s var(--ease) .48s both, cue 2.2s var(--ease) 1.2s infinite}
+@media(prefers-reduced-motion:reduce){.cue{animation:rise .6s var(--ease) .48s both}}
 
 /* ═════════ CARD ĐẶT LỊCH — kính mờ đè lên landing ═════════ */
 #veil{position:fixed;inset:0;z-index:50;background:rgba(10,10,10,.44);
@@ -294,27 +339,57 @@ h1{font-size:clamp(30px,6.4vw,88px);line-height:1.08;letter-spacing:-.04em;color
       </button>
     </div>
 
-    <div class="foot">
-      <div class="fl mono">© 2026 B0DY — Private fitness studio<br>19B/20 Ngụy Như Kon Tum, Thanh Xuân, Hà Nội</div>
-      <!-- TODO: thay đúng handle Instagram/Facebook của B0DY -->
-      <nav class="soc" aria-label="Mạng xã hội">
-        <a href="https://www.instagram.com/b0dy.studio" target="_blank" rel="noopener" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5.2"/>
-            <circle cx="12" cy="12" r="4.1"/>
-            <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/>
-          </svg>
-        </a>
-        <a href="https://www.facebook.com/b0dy.studio" target="_blank" rel="noopener" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="12" cy="12" r="8.8"/>
-            <path d="M14.6 8.2h-1.1c-1.1 0-1.8.7-1.8 1.9v1.2H10v1.9h1.7v4.4h1.9v-4.4h1.6l.3-1.9h-1.9v-1c0-.5.2-.8.8-.8h1.2V8.2z" fill="currentColor" stroke="none"/>
-          </svg>
-        </a>
-      </nav>
-    </div>
+    <div class="cue" aria-hidden="true"></div>
   </div>
 </div>
+
+<!-- ═════════ TRIẾT LÝ SỐ 0 ═════════ -->
+<section class="manif" id="manif">
+  <svg class="zero" viewBox="0 0 200 260" fill="none" aria-hidden="true">
+    <ellipse class="ring" cx="100" cy="130" rx="88" ry="115" stroke="currentColor" stroke-width="1.5" pathLength="100"/>
+    <circle class="dot" cx="100" cy="130" r="11" fill="currentColor"/>
+  </svg>
+  <div class="mtxt">
+    <div class="mk mono" id="mk">B0DY — Vì sao là số 0?</div>
+    <h2 class="mh" id="mh">0 là vạch xuất phát.</h2>
+    <p class="mp" id="mp1">Số 0 không có điểm kết thúc — nó là một vòng lặp. Tập luyện cũng vậy: không phải một cái đích, mà là vòng lặp liên tục của sự nỗ lực.</p>
+    <p class="mp" id="mp2">Chẳng cần đợi đến lúc sẵn sàng. Trạng thái hôm nay của bạn chính là điểm bắt đầu.</p>
+    <p class="mp mclose" id="mc">Hãy để B0DY là vạch xuất phát. Và để cơ thể kể về bạn.</p>
+    <button class="cta" id="cta2" type="button">
+      <span id="cta2-t">Đặt lịch tập thử</span>
+      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+    </button>
+  </div>
+</section>
+
+<!-- ═════════ FOOTER ═════════ -->
+<footer class="foot">
+  <div class="fl mono">© 2026 B0DY — Private fitness studio<br>19B/20 Ngụy Như Kon Tum<span class="dsk">, </span><br class="mob">Thanh Xuân, Hà Nội</div>
+  <!-- TODO: thay đúng handle Instagram/Facebook của B0DY -->
+  <nav class="soc" aria-label="Mạng xã hội">
+    <a href="https://www.instagram.com/b0dy.studio" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5.2"/>
+        <circle cx="12" cy="12" r="4.1"/>
+        <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+    <a href="https://www.facebook.com/b0dy.studio" target="_blank" rel="noopener" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="8.8"/>
+        <path d="M14.6 8.2h-1.1c-1.1 0-1.8.7-1.8 1.9v1.2H10v1.9h1.7v4.4h1.9v-4.4h1.6l.3-1.9h-1.9v-1c0-.5.2-.8.8-.8h1.2V8.2z" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+    <a href="https://maps.app.goo.gl/LZQnWTzzJpyLKSYS8" target="_blank" rel="noopener" aria-label="Google Maps">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 21.2C8.9 17.9 5.8 14.4 5.8 11a6.2 6.2 0 0 1 12.4 0c0 3.4-3.1 6.9-6.2 10.2Z"/>
+        <circle cx="12" cy="10.9" r="1.1" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+  </nav>
+</footer>
 
 <!-- ═════════ CARD ĐẶT LỊCH ═════════ -->
 <div id="veil"></div>
@@ -407,6 +482,11 @@ var API = 'https://script.google.com/macros/s/AKfycbxiZLzsL8FXYXnqt5ABvWHNkSSK8l
 var I18N = {
   vi: {
     h1:'Để cơ thể kể về bạn.', cta:'Đặt lịch tập thử',
+    mk:'B0DY — Vì sao là số 0?',
+    mh:'0 là vạch xuất phát.',
+    mp1:'Số 0 không có điểm kết thúc — nó là một vòng lặp. Tập luyện cũng vậy: không phải một cái đích, mà là vòng lặp liên tục của sự nỗ lực.',
+    mp2:'Chẳng cần đợi đến lúc sẵn sàng. Trạng thái hôm nay của bạn chính là điểm bắt đầu.',
+    mc:'Hãy để B0DY là vạch xuất phát. Và để cơ thể kể về bạn.',
     q1:'Bạn có thể đến B0DY vào ngày nào?', q2:'Khung giờ bạn muốn tập?', q3:'Xác nhận thông tin.',
     month:function(m1,m2,y){ return 'Tháng '+(m1===m2?m1:m1+' – '+m2)+', '+y; },
     dow:{T2:'Thứ 2',T3:'Thứ 3',T4:'Thứ 4',T5:'Thứ 5',T6:'Thứ 6',T7:'Thứ 7',CN:'Chủ nhật'},
@@ -433,6 +513,11 @@ var I18N = {
   },
   en: {
     h1:'Let your body tell your story.', cta:'Book a trial session',
+    mk:'B0DY — Why the zero?',
+    mh:'0 is the starting line.',
+    mp1:'A zero has no end point — it loops. Training works the same way: not a destination, but a continuous loop of effort.',
+    mp2:'No need to wait until you feel ready. Where you are today is the starting point.',
+    mc:'Let B0DY be your starting line. And let your body tell your story.',
     q1:'Which day works for you?', q2:'What time suits you?', q3:'Confirm your details.',
     month:function(m1,m2,y){
       var N=['','January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -688,6 +773,18 @@ function submitForm(e){
 
 /* ---------------- wire ---------------- */
 $('cta').addEventListener('click', function(){ openCard(true); });
+$('cta2').addEventListener('click', function(){ openCard(true); });
+
+/* vẽ vòng "0" khi section triết lý vào khung nhìn — một lần */
+(function(){
+  var m = $('manif');
+  if (!m) return;
+  if (!('IntersectionObserver' in window)){ m.classList.add('seen'); return; }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting){ m.classList.add('seen'); io.disconnect(); } });
+  }, {threshold:.35});
+  io.observe(m);
+})();
 $('bk-close').addEventListener('click', function(){ closeCard(false); });
 $('veil').addEventListener('click', function(){ closeCard(false); });
 $('bk-back').addEventListener('click', function(){
@@ -737,6 +834,9 @@ function applyLang(){
   $('lg-en').classList.toggle('on', LANG==='en');
   $('h1').textContent = t.h1;
   $('cta-t').textContent = t.cta;
+  $('cta2-t').textContent = t.cta;
+  $('mk').textContent = t.mk; $('mh').textContent = t.mh;
+  $('mp1').textContent = t.mp1; $('mp2').textContent = t.mp2; $('mc').textContent = t.mc;
   $('q1').textContent = t.q1; $('q2').textContent = t.q2; $('q3').textContent = t.q3;
   $('c-label').textContent = t.coachLabel;
   $('l-name').textContent = t.lName;
