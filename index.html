@@ -5,6 +5,7 @@
 <title>B0DY — Private Fitness Studio</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0A0A0A">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="description" content="B0DY — private fitness studio tại Hà Nội. Đặt lịch tập thử.">
 <meta property="og:type" content="website">
@@ -56,6 +57,8 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{background:#0A0A0A}
 html,body{color:var(--w92);color-scheme:dark}
+html{scrollbar-width:none}
+html::-webkit-scrollbar{display:none;width:0;height:0}
 body{background:transparent;font-family:'SVN-Switzer','B0DY Sans',system-ui,sans-serif;font-weight:500;
      font-synthesis:none;overflow-x:hidden}
 body.bk{overflow:hidden}
@@ -83,8 +86,8 @@ button,input{font:inherit;color:inherit;background:none;border:0;outline:0}
 #fallback img{display:block;width:100%;height:100%;object-fit:contain}
 
 /* sân khấu */
-#pin{height:860svh;position:relative}
-#stage{position:sticky;top:0;height:100svh;overflow:hidden;pointer-events:none}
+#pin{height:860vh;height:860dvh;position:relative}
+#stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;pointer-events:none}
 .blk{position:absolute;opacity:0;will-change:opacity,transform}
 .blk .k{font-size:11px;letter-spacing:.08em;color:var(--w30);margin-bottom:20px}
 .blk .ln{display:block;overflow:hidden}
@@ -133,6 +136,14 @@ letter-spacing:-.005em;padding:0 26px;height:54px;cursor:pointer;transition:tran
 /* ── LOADER — số 0 tự rót đầy theo tiến độ tải, xong thì phóng lớn mở màn ── */
 #loader{position:fixed;inset:0;z-index:999}
 #loader svg{display:block;width:100%;height:100%}
+/* scrollbar riêng — vạch mảnh, hiện khi cuộn, tự ẩn khi nghỉ */
+#sbar{position:fixed;top:0;right:0;bottom:0;width:10px;z-index:30;pointer-events:none;
+      opacity:0;transition:opacity .45s var(--ease)}
+#sbar.on{opacity:1}
+#sthumb{position:absolute;right:5px;width:2px;background:rgba(250,250,250,.55);top:0;height:60px}
+body.bk #sbar{opacity:0!important}
+body.ld #sbar{opacity:0!important}
+@media(prefers-reduced-motion:reduce){#sbar{display:none}}
 .hd,#stage{transition:opacity .6s var(--ease)}
 body.ld .hd,body.ld #stage{opacity:0}
 body.ld #cue{visibility:hidden}
@@ -373,6 +384,8 @@ body.ld #cue{visibility:hidden}
 </div>
 
 <div id="cue" class="mono">Cuộn xuống</div>
+
+<div id="sbar" aria-hidden="true"><div id="sthumb"></div></div>
 
 <div id="pin">
   <div id="stage">
@@ -975,6 +988,13 @@ var M={};
 function measure(){
   var w=innerWidth,h=innerHeight,mob=w<900;
   M.mob=mob;M.w=w;M.h=h;
+  /* ghim chiều cao bằng px theo viewport THẬT (innerHeight đổi khi thanh Safari co giãn)
+     — svh để hụt đáy khi bar thu gọn, dvh làm sticky giật; px + resize là chuẩn scrollytelling */
+  if(!reduced){
+    var st=document.getElementById('stage');
+    st.style.height=h+'px';
+    pin.style.height=Math.round(h*8.6)+'px';
+  }
   M.objH   = mob? h*.24 : h*.38;        /* chiều cao khối trên màn (hồi kể)   */
   M.objY   = mob? h*.315 : h*.5;        /* tâm khối                            */
   M.dockH  = mob? h*.115 : h*.15;       /* chiều cao khi đậu ở màn kết         */
@@ -1158,11 +1178,14 @@ function showFallback(){
 }
 
 var target=0,smooth=0,OV=0;
+var sbar=$('sbar'), sthumb=$('sthumb'), sbT;
 function onScroll(){
   var r=pin.getBoundingClientRect();
   target=clamp(-r.top/(r.height-M.h),0,1);
   /* cuộn lố qua đoạn ghim: khối phải trôi lên CÙNG chữ, từng pixel một */
   OV=Math.max(0, -r.top-(r.height-M.h));
+  sbar.classList.add('on');
+  clearTimeout(sbT); sbT=setTimeout(function(){ sbar.classList.remove('on'); },900);
 }
 function loop(){
   smooth+=(target-smooth)*.12;
@@ -1262,6 +1285,11 @@ function paint(){
   footEl.style.opacity=String(fo);
   footEl.style.pointerEvents=fo>.5?'auto':'none';
 
+  /* scrollbar riêng — chạy theo smooth, cùng nhịp mọi chuyển động */
+  var th=Math.max(44,M.h/8.6);
+  sthumb.style.height=th+'px';
+  sthumb.style.transform='translateY('+(p*(M.h-th))+'px)';
+
   /* trạng thái cho harness */
   var hw=(objH*176/230)/2*1.12, hh=objH/2*1.12;   /* nới theo bevel + xoay */
   window.__glyph={cx:M.w/2,cy:objY,hw:hw,hh:hh,on:p>.1};
@@ -1299,19 +1327,21 @@ function ldFinish(){
   document.documentElement.style.overflow='';
   scrollTo(0,0);
   if(reduced){ document.body.classList.remove('ld'); loader.remove(); return; }
-  /* hố glyph phải phủ kín cả 4 góc màn hình thì mới được gỡ */
-  var sEnd=Math.sqrt(Math.pow(innerWidth/2/88,2)+Math.pow(innerHeight/2/115,2))*1.04;
-  var t0=null;
-  function easeInOut(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
+  /* Zoom LŨY THỪA, gia tốc tăng dần tới hết — như máy quay bay XUYÊN QUA số 0.
+     Hố phủ kín 4 góc ở k≈.9 rồi còn vọt tiếp 55% nữa: không có điểm dừng ở mép màn hình.
+     Hero + header fade-in từ giữa cú zoom — một cú mở màn liền mạch, không hai nhịp. */
+  var sCover=Math.sqrt(Math.pow(innerWidth/2/88,2)+Math.pow(innerHeight/2/115,2));
+  var sEnd=sCover*1.55, ratio=sEnd/ldS0, t0=null;
   function step(ts){
     if(t0===null)t0=ts;
-    var k=Math.min((ts-t0)/850,1);
-    ldGd.setAttribute('opacity',String(Math.max(0,1-k*3)));
-    ldPose(ldS0+(sEnd-ldS0)*easeInOut(k));
+    var k=Math.min((ts-t0)/1000,1);
+    ldGd.setAttribute('opacity',String(Math.max(0,1-k*4)));
+    ldPose(ldS0*Math.pow(ratio,k*k));   /* easeInQuad trên thang mũ — zoom cảm nhận đều và bốc dần */
+    if(k>.5) document.body.classList.remove('ld');
     if(k<1) requestAnimationFrame(step);
     else { loader.remove(); document.body.classList.remove('ld'); }
   }
-  setTimeout(function(){ requestAnimationFrame(step); },140);
+  setTimeout(function(){ requestAnimationFrame(step); },120);
 }
 function ldTick(){
   if(ldDone) return;
@@ -1321,7 +1351,7 @@ function ldTick(){
   var lvl=230*(1-ldShown);
   ldRB.setAttribute('y',lvl); ldRB.setAttribute('height',320-lvl);
   ldRT.setAttribute('height',lvl+30);
-  if(t>=1 && ldShown>.985){ ldFinish(); return; }
+  if(t>=1 && ldShown>.996){ ldFinish(); return; }
   requestAnimationFrame(ldTick);
 }
 
