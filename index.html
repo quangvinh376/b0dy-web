@@ -318,6 +318,7 @@ body.ld #cue{visibility:hidden}
 .btn.pri{background:var(--acid);color:var(--ink);border-color:transparent}
 
 .skel{height:52px;background:rgba(250,250,250,.06);animation:pulse 1.4s var(--ease) infinite;margin-bottom:7px}
+.none{grid-column:1/-1;font-size:11px;line-height:19px;letter-spacing:.06em;color:var(--w50);padding:16px 2px}
 @keyframes pulse{0%,100%{opacity:.6}50%{opacity:.25}}
 
 #toast{position:fixed;left:16px;right:16px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:95;
@@ -575,13 +576,17 @@ var I18N = {
     subline:function(dow,dd,mm){ return dow+', ngày '+dd+'/'+mm; },
     pending:'Đang đặt lịch…', okLabel:'Đặt lịch thành công',
     coachRow:function(c){ return 'Coach '+c; },
-    failLabel:'Chưa đặt được',
+    failLabel:'Có lỗi xảy ra',
+    failTitle:'Đặt lịch không thành công.',
     failHint:'Còn những khung giờ khác đang trống — chọn lại giúp B0DY nhé.',
+    noDays:'Hiện chưa có khung giờ nào mở — thử lại sau ít phút nhé.',
     again:'Chọn giờ khác', doneBtn:'Xong',
     err:{ het_cho:'Ca này vừa có người đặt', qua_gan:'Ca này quá sát giờ',
       ngay_dong:'Ngày này B0DY không nhận lịch', sai_slot:'Khung giờ không còn trong lịch',
       da_dat:'Số điện thoại này đã có một lịch tập thử', sai_sdt:'Số điện thoại chưa đúng',
       thieu_ten:'Thiếu tên', he_thong_ban:'Hệ thống đang bận, thử lại sau vài giây',
+      loi_he_thong:'Hệ thống đang gián đoạn, thử lại sau ít phút',
+      khac:'Hệ thống chưa nhận được lịch này',
       mat_mang:'Không gửi được — kiểm tra kết nối rồi thử lại' }
   },
   en: {
@@ -612,13 +617,17 @@ var I18N = {
     subline:function(dow,dd,mm){ return dow+', '+dd+'/'+mm; },
     pending:'Booking…', okLabel:'Booking confirmed',
     coachRow:function(c){ return 'Coach '+c; },
-    failLabel:'Not booked yet',
+    failLabel:'Something went wrong',
+    failTitle:'Your booking did not go through.',
     failHint:'Other time slots are still open — please pick another.',
+    noDays:'No open time slots right now — please try again shortly.',
     again:'Pick another time', doneBtn:'Done',
     err:{ het_cho:'This slot was just taken', qua_gan:'This slot is too close to now',
       ngay_dong:'B0DY is closed on this day', sai_slot:'This time is no longer on the schedule',
       da_dat:'This phone number already has a trial booked', sai_sdt:'Phone number looks off',
       thieu_ten:'Please add your name', he_thong_ban:'System is busy — try again in a moment',
+      loi_he_thong:'The system is having a hiccup — try again shortly',
+      khac:'The system did not accept this booking',
       mat_mang:'Could not send — check your connection and retry' }
   }
 };
@@ -750,6 +759,11 @@ function monthTitle(days){
 function renderStep(){
   if (!S.data){ $('days').innerHTML = '<div class="skel"></div><div class="skel"></div>'; return; }
   var days = S.data.days.slice(0,10);
+  if (!days.length){
+    $('t1-month').textContent = '';
+    $('days').innerHTML = '<div class="none mono">'+L().noDays+'</div>';
+    return;
+  }
   $('t1-month').textContent = monthTitle(days);
   var h='';
   days.forEach(function(d,i){
@@ -831,7 +845,8 @@ function submitForm(e){
   }
   function fail(msg){
     spin(false); S.sending=false; $('go').disabled=false;
-    showDone('fail', L().failLabel, '', msg+'.',
+    showDone('fail', L().failLabel, '', L().failTitle,
+             '<div class="drow"><span>'+esc(msg)+'.</span></div>'+
              '<div class="drow"><span>'+L().failHint+'</span></div>',
              '<button class="btn pri" type="button" id="dn-again">'+L().again+'</button>');
     $('dhh').style.display='none';
@@ -844,7 +859,7 @@ function submitForm(e){
   post({action:'book', name:name, phone:phone, meta:meta, date:day.date, time:slot.time}, 20000, 0)
     .then(function(j){
       if (j && j.ok) return ok(j);
-      fail(L().err[(j&&j.error)||''] || L().failLabel);
+      fail(L().err[(j&&j.error)||''] || L().err.khac);
     })
     .catch(function(){ fail(L().err.mat_mang); });
 }
