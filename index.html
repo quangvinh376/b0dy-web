@@ -269,17 +269,7 @@ body.ld #cue{visibility:hidden}
 .trow.full .t,.trow.full .lb,.trow.full .st{color:var(--w30)}
 @media(hover:hover){.trow:not(.full):hover .t{color:var(--acid)}}
 
-/* bước 3 — coach + form */
-.coach{display:flex;align-items:center;gap:16px;padding:18px 2px;margin-bottom:16px;
-       border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
-.coach .ava{width:58px;height:58px;flex:none;position:relative;
-            background:rgba(250,250,250,.06);border:1px solid var(--hair);
-            display:flex;align-items:center;justify-content:center;overflow:hidden}
-.coach .ava svg{width:26px;height:26px;color:var(--w70)}
-.coach .ava::after{content:'';position:absolute;left:0;bottom:0;height:2px;width:100%;
-       background:var(--acid);transform-origin:left;animation:draw .7s var(--ease) .25s both}
-.coach .cl{font-size:10px;line-height:17px;letter-spacing:.08em;color:var(--w50)}
-.coach .cn{font-size:21px;line-height:1.2;letter-spacing:-.02em;color:var(--paper);margin-top:3px}
+/* bước 3 — form */
 
 .f{margin-bottom:12px}
 .f label{display:block;font-size:11px;line-height:18px;letter-spacing:.08em;color:var(--w50);margin-bottom:6px;font-weight:500}
@@ -497,16 +487,6 @@ body.ld #cue{visibility:hidden}
       <div class="tl mono" id="t3-sel">—</div>
       <div class="tq" id="q3">Xác nhận thông tin.</div>
 
-      <div class="coach">
-        <div class="ava">
-          <svg viewBox="0 0 240 240" fill="currentColor"><path d="M 32 120 A 88 115 0 0 1 120 5 A 88 115 0 0 1 208 120 A 88 115 0 0 1 120 235 A 88 115 0 0 1 32 120 Z M 80 120 A 40 67 0 0 1 120 53 A 40 67 0 0 1 160 120 A 40 67 0 0 1 120 187 A 40 67 0 0 1 80 120 Z M 100 120 A 20 20 0 0 1 140 120 A 20 20 0 0 1 100 120 Z" fill-rule="evenodd"/></svg>
-        </div>
-        <div>
-          <div class="cl mono" id="c-label">Coach của buổi này</div>
-          <div class="cn" id="c-name">—</div>
-          </div>
-      </div>
-
       <form id="bform" novalidate>
         <div class="f" id="f-name">
           <label class="mono" for="i-name" id="l-name">Tên của bạn</label>
@@ -566,16 +546,15 @@ var I18N = {
     dow:{T2:'Thứ 2',T3:'Thứ 3',T4:'Thứ 4',T5:'Thứ 5',T6:'Thứ 6',T7:'Thứ 7',CN:'Chủ nhật'},
     dowS:{T2:'T2',T3:'T3',T4:'T4',T5:'T5',T6:'T6',T7:'T7',CN:'CN'},
     ca:{'07:00':'sáng sớm','09:00':'buổi sáng','18:00':'sau giờ làm','20:00':'buổi tối'},
-    left:function(n){ return 'Còn '+n+' ca'; }, full:'Kín',
-    slotFree:'Còn chỗ', slotFull:'Hết chỗ',
-    coachLabel:'Coach của buổi này',
+    left:function(n){ return 'Còn '+n+' ca'; }, full:'Kín', closed:'Đóng',
+    slotFree:'Còn chỗ', slotFull:'Hết chỗ', slotPast:'Đã qua', slotShut:'Không mở',
     lName:'Tên của bạn', lPhone:'Số điện thoại', lMeta:'Facebook / Zalo', lOpt:'— không bắt buộc',
     phName:'Nguyễn Văn A', phPhone:'0901 234 567', phMeta:'facebook.com/…',
     go:'Xác nhận',
     mName:'Cho B0DY biết tên để gọi nhé.', mPhone:'Số điện thoại chưa đúng — 10 số, bắt đầu bằng 0.',
     subline:function(dow,dd,mm){ return dow+', ngày '+dd+'/'+mm; },
     pending:'Đang đặt lịch…', okLabel:'Đặt lịch thành công',
-    coachRow:function(c){ return 'Coach '+c; },
+    durRow:function(n){ return 'Buổi tập thử · '+n+' phút'; },
     failLabel:'Có lỗi xảy ra',
     failTitle:'Đặt lịch không thành công.',
     failHint:'Còn những khung giờ khác đang trống — chọn lại giúp B0DY nhé.',
@@ -607,16 +586,15 @@ var I18N = {
     dow:{T2:'Mon',T3:'Tue',T4:'Wed',T5:'Thu',T6:'Fri',T7:'Sat',CN:'Sun'},
     dowS:{T2:'Mon',T3:'Tue',T4:'Wed',T5:'Thu',T6:'Fri',T7:'Sat',CN:'Sun'},
     ca:{'07:00':'early morning','09:00':'morning','18:00':'after work','20:00':'evening'},
-    left:function(n){ return n+(n>1?' slots':' slot'); }, full:'Full',
-    slotFree:'Available', slotFull:'Full',
-    coachLabel:'Your coach for this session',
+    left:function(n){ return n+(n>1?' slots':' slot'); }, full:'Full', closed:'Closed',
+    slotFree:'Available', slotFull:'Full', slotPast:'Passed', slotShut:'Closed',
     lName:'Your name', lPhone:'Phone number', lMeta:'Facebook / Zalo', lOpt:'— optional',
     phName:'Alex Nguyen', phPhone:'0901 234 567', phMeta:'facebook.com/…',
     go:'Confirm',
     mName:'Let B0DY know your name.', mPhone:'Phone number looks off — 10 digits, starting with 0.',
     subline:function(dow,dd,mm){ return dow+', '+dd+'/'+mm; },
     pending:'Booking…', okLabel:'Booking confirmed',
-    coachRow:function(c){ return 'Coach '+c; },
+    durRow:function(n){ return 'Trial session · '+n+' min'; },
     failLabel:'Something went wrong',
     failTitle:'Your booking did not go through.',
     failHint:'Other time slots are still open — please pick another.',
@@ -767,11 +745,15 @@ function renderStep(){
   $('t1-month').textContent = monthTitle(days);
   var h='';
   days.forEach(function(d,i){
-    var free = d.slots.filter(function(s){return s.left>0}).length;
+    var free = d.slots.filter(function(s){ return s.left>0 }).length;
+    /* ngày đóng cửa và ngày kín chỗ nói khác nhau — đừng bắt khách đoán */
+    var shut = !free && d.slots.length &&
+               d.slots.every(function(s){ return s.why==='dong' || s.why==='qua' });
+    var sub  = free ? L().left(free) : (shut ? L().closed : L().full);
     h += '<div class="dcard'+(free?'':' dis')+'" '+(free?'data-i="'+i+'" tabindex="0" role="button"':'')+'>'+
          '<span class="w mono">'+esc(L().dowS[d.dow]||d.dow)+'</span>'+
          '<span class="n mono">'+esc(d.dd)+'</span>'+
-         '<span class="s mono">'+(free?L().left(free):L().full)+'</span></div>';
+         '<span class="s mono">'+sub+'</span></div>';
   });
   $('days').innerHTML = h;
 }
@@ -781,24 +763,28 @@ function renderTimes(){
   var h='';
   d.slots.forEach(function(s){
     var ok = s.left>0;
+    var st = ok ? L().slotFree
+           : s.why==='qua'  ? L().slotPast
+           : s.why==='dong' ? L().slotShut
+           : L().slotFull;
     h += '<button type="button" class="trow'+(ok?'':' full')+'" '+(ok?'data-t="'+esc(s.time)+'"':'disabled')+'>'+
          '<span class="t mono">'+esc(s.time)+'</span>'+
          '<span class="lb">'+esc(L().ca[s.time]||'')+'</span>'+
-         '<span class="st mono">'+(ok?L().slotFree:L().slotFull)+'</span></button>';
+         '<span class="st mono">'+st+'</span></button>';
   });
   $('times').innerHTML = h;
 }
 function renderForm(){
   $('t3-sel').textContent = (L().dow[S.day.dow]||S.day.dow)+', '+S.day.dd+'/'+S.day.mm+' — '+S.slot.time;
-  $('c-name').textContent = S.slot.coach;
 }
 
 /* ---------------- kết quả ---------------- */
 var ADDR = '19B/20 Ngụy Như Kon Tum, Thanh Xuân, Hà Nội';
-var ICO_COACH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 19c.8-3.6 3.4-5.4 6.5-5.4s5.7 1.8 6.5 5.4"/></svg>';
+var ICO_CLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8.4"/><path d="M12 7.4V12l3.2 1.9"/></svg>';
 var ICO_PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-6.5-5.6-6.5-10a6.5 6.5 0 1 1 13 0c0 4.4-6.5 10-6.5 10z"/><circle cx="12" cy="10.6" r="2.2"/></svg>';
-function statRows(coach){
-  return '<div class="drow">'+ICO_COACH+'<span>'+esc(L().coachRow(coach))+'</span></div>'+
+function statRows(){
+  var dur = (S.data && S.data.dur) || 60;
+  return '<div class="drow">'+ICO_CLOCK+'<span>'+esc(L().durRow(dur))+'</span></div>'+
          '<div class="drow">'+ICO_PIN+'<span>'+esc(ADDR)+'</span></div>';
 }
 function showDone(state, label, hero, sub, statHTML, actions){
@@ -831,14 +817,14 @@ function submitForm(e){
   var dur = (S.data && S.data.dur) || 60;
 
   /* lạc quan CÓ ĐƯỜNG LÙI: sang màn kết quả ngay, nói đúng trạng thái */
-  showDone('pending', L().pending, slot.time, subline, statRows(slot.coach));
+  showDone('pending', L().pending, slot.time, subline, statRows());
   $('bk-back').classList.add('hide');
   spin(true);
 
   function ok(j){
     spin(false); S.sending=false; $('go').disabled=false;
     showDone('ok', L().okLabel, slot.time, subline,
-             statRows(slot.coach),
+             statRows(),
              '<button class="btn pri" type="button" id="dn-close">'+L().doneBtn+'</button>');
     var b=$('dn-close'); if(b) b.addEventListener('click', function(){ closeCard(false); });
     try{ localStorage.removeItem('b0dy_sched'); }catch(e){}
@@ -937,7 +923,6 @@ function applyLang(){
   $('cta3').textContent = t.cta3;
   buildStory();
   $('q1').textContent = t.q1; $('q2').textContent = t.q2; $('q3').textContent = t.q3;
-  $('c-label').textContent = t.coachLabel;
   $('l-name').textContent = t.lName;
   $('l-phone').textContent = t.lPhone;
   $('l-meta').innerHTML = esc(t.lMeta)+' <span class="opt">'+esc(t.lOpt)+'</span>';
