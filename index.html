@@ -545,7 +545,7 @@ var I18N = {
     month:function(m1,m2,y){ return 'Tháng '+(m1===m2?m1:m1+' – '+m2)+', '+y; },
     dow:{T2:'Thứ 2',T3:'Thứ 3',T4:'Thứ 4',T5:'Thứ 5',T6:'Thứ 6',T7:'Thứ 7',CN:'Chủ nhật'},
     dowS:{T2:'T2',T3:'T3',T4:'T4',T5:'T5',T6:'T6',T7:'T7',CN:'CN'},
-    ca:{'07:00':'sáng sớm','09:00':'buổi sáng','18:00':'sau giờ làm','20:00':'buổi tối'},
+    ca:{'07:00':'sáng sớm','09:00':'buổi sáng','10:00':'buổi sáng','14:00':'đầu giờ chiều','18:00':'sau giờ làm','20:00':'buổi tối'},
     left:function(n){ return 'Còn '+n+' ca'; }, full:'Kín', closed:'Đóng',
     slotFree:'Còn chỗ', slotFull:'Hết chỗ', slotPast:'Đã qua', slotShut:'Không mở',
     lName:'Tên của bạn', lPhone:'Số điện thoại', lMeta:'Facebook / Zalo', lOpt:'— không bắt buộc',
@@ -585,7 +585,7 @@ var I18N = {
       return (m1===m2?N[+m1]:N[+m1]+' – '+N[+m2])+', '+y; },
     dow:{T2:'Mon',T3:'Tue',T4:'Wed',T5:'Thu',T6:'Fri',T7:'Sat',CN:'Sun'},
     dowS:{T2:'Mon',T3:'Tue',T4:'Wed',T5:'Thu',T6:'Fri',T7:'Sat',CN:'Sun'},
-    ca:{'07:00':'early morning','09:00':'morning','18:00':'after work','20:00':'evening'},
+    ca:{'07:00':'early morning','09:00':'morning','10:00':'morning','14:00':'early afternoon','18:00':'after work','20:00':'evening'},
     left:function(n){ return n+(n>1?' slots':' slot'); }, full:'Full', closed:'Closed',
     slotFree:'Available', slotFull:'Full', slotPast:'Passed', slotShut:'Closed',
     lName:'Your name', lPhone:'Phone number', lMeta:'Facebook / Zalo', lOpt:'— optional',
@@ -656,7 +656,7 @@ function post(body, ms, tries){
 /* ---------------- dữ liệu lịch ---------------- */
 function demo(){
   var wd=['CN','T2','T3','T4','T5','T6','T7'], names=['Quyết','Mây','Định','Khải','Lâm'];
-  var hrs=['07:00','09:00','18:00','20:00'], days=[], now=new Date();
+  var hrs=['07:00','10:00','14:00','18:00'], days=[], now=new Date();
   for (var i=0;i<10;i++){
     var d=new Date(now.getTime()+i*86400000), slots=[];
     for (var j=0;j<hrs.length;j++){
